@@ -31,7 +31,7 @@ export default function BottomBar() {
 
 const BottomBarContainer = styled.div`
   display: flex;
-  width: 360px;
+  width: 440px;
   height: 69px;
   align-items: center;
   justify-content: space-around;
