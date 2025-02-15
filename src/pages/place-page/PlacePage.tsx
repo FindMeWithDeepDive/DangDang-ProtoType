@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import KakaoMap from "../../components/KakaoMap";
+import BottomSheet from "../../components/BottomSheet";
 
 export default function PlacePage() {
   return (
@@ -8,6 +9,7 @@ export default function PlacePage() {
       <Map>
         <KakaoMap></KakaoMap>
       </Map>
+      <BottomSheet></BottomSheet>
     </PlacePageContainer>
   );
 }
