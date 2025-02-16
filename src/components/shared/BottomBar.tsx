@@ -36,6 +36,7 @@ const BottomBarContainer = styled.div`
   align-items: center;
   justify-content: space-around;
   background-color: #ffffff;
+  z-index: 100;
 `;
 
 const BottomBarButton = styled.div`
