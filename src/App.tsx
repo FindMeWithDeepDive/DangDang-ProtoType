@@ -26,7 +26,6 @@ export default App;
 
 const AppContainer = styled.div`
   width: 440px;
-  min-height: 800px;
   height: 100vh; /* 화면의 크기 전체에 맞게 설정 */
   margin: 0 auto;
   background-color: #999999;
