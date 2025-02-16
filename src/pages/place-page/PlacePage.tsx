@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import KakaoMap from "../../components/KakaoMap";
 import BottomSheet from "../../components/BottomSheet";
+import PlaceHeader from "../../components/PlaceHeader";
 
 export default function PlacePage() {
   return (
     <PlacePageContainer>
-      <Header>헤더입니당 (수정예정)</Header>
+      <PlaceHeader></PlaceHeader>
       <Map>
         <KakaoMap></KakaoMap>
       </Map>
@@ -13,13 +14,6 @@ export default function PlacePage() {
     </PlacePageContainer>
   );
 }
-
-const Header = styled.div`
-  width: 100%;
-  height: 51px;
-  background-color: #d9d9d9;
-  text-align: center;
-`;
 
 const PlacePageContainer = styled.div`
   width: 100%;
