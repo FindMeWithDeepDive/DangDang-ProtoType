@@ -1,39 +1,15 @@
-import { useState } from "react";
+import { useBottomSheetStore } from "../stores/map";
 import styled from "styled-components";
 import bottomBarIcon from "../assets/bottomBarIcon.png";
 import BottomSheetContent from "./BottomSheetContent";
 import BottomSheetMeetingList from "./BottomSheetMeetingList";
 
 export default function BottomSheet() {
-  const [height, setHeight] = useState(28); // 기본 height 값을 400으로 설정
-  const [contentDisplay, setContentDisplay] = useState("none");
-  const [meetingDisplay, setMeetingDisplay] = useState("none");
-  const [state, setState] = useState(0);
-
-  const onClickHeader = () => {
-    if (state === 0) {
-      setState(1);
-      setHeight(195);
-      setContentDisplay("flex");
-      setMeetingDisplay("flex");
-    } else if (state === 1) {
-      setState(2);
-      setHeight(900);
-    } else if (state === 2) {
-      setState(0);
-      setHeight(28);
-      setContentDisplay("none");
-      setMeetingDisplay("none");
-    }
-  };
+  const { height, contentDisplay, meetingDisplay, onClickHeader } = useBottomSheetStore();
 
   return (
     <BottomSheetContainer height={height}>
-      <BottomHeader
-        onClick={() => {
-          onClickHeader();
-        }}
-      >
+      <BottomHeader onClick={onClickHeader}>
         <BottomBarIcon src={bottomBarIcon} />
       </BottomHeader>
       <SheetContentWrapper contentDisplay={contentDisplay}>

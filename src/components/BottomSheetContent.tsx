@@ -2,26 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import starIcon from "../assets/starIcon.png";
 import phoneIcon from "../assets/phoneIcon.png";
-
-// 임시 데이터입니다. API 완성 후 fetch로 데이터 받아온 후 수정하시면 됩니다.
-const dummyData = {
-  description1: "부산 해운대구 어디어디",
-  description2: "(구) 부산 해운대구 어디어디",
-  phoneNumber: "053 - 111 - 2345",
-};
+import { usePlaceDetailStore } from "../stores/map";
 
 export default function BottomSheetContent() {
+  const { place_name, road_address_name, address_name, phone } = usePlaceDetailStore();
   return (
     <SheetContent>
       <TitleIconWrapper>
-        <Title>제목</Title>
+        <Title>{place_name}</Title>
         <Icon src={starIcon} />
       </TitleIconWrapper>
-      <PlaceDescription>{dummyData.description1}</PlaceDescription>
-      <PlaceDescriptionSub>{dummyData.description2}</PlaceDescriptionSub>
+      <PlaceDescription>{road_address_name}</PlaceDescription>
+      <PlaceDescriptionSub>{address_name}</PlaceDescriptionSub>
       <PhoneNumberWrapper>
         <PhoneIcon src={phoneIcon} />
-        <PhoneNumber>{dummyData.phoneNumber}</PhoneNumber>
+        <PhoneNumber>{phone}</PhoneNumber>
       </PhoneNumberWrapper>
     </SheetContent>
   );
@@ -38,10 +33,11 @@ const TitleIconWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 16px;
+  margin-top: 16px;
 `;
 
 const Title = styled.div`
-  width: 200px;
+  width: 300px;
   color: #845ec2;
   font-size: bold;
   font-size: 20px;
