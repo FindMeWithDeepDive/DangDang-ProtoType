@@ -49,6 +49,7 @@ const usePlaceDetailStore = create<PlaceDetailStore>((set) => ({
   id: "",
   x: "",
   y: "",
+  place_id: "",
   meetingList: [],
   updatePlace: (newPlace) => set({ ...newPlace }), // place 정보 업데이트
 }));

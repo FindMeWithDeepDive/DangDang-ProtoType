@@ -8,9 +8,9 @@ import styled from "styled-components";
 export default function BottomBar() {
   const buttonData = [
     { icon: homeIcon, label: "홈", path: "/" },
-    { icon: placeIcon, label: "장소", path: "/place" },
+    { icon: placeIcon, label: "내 장소", path: "/place" },
     { icon: groupIcon, label: "내 모임", path: "/group" },
-    { icon: mypageIcon, label: "마이페이지", path: "/mypage" },
+    { icon: mypageIcon, label: "마이", path: "/mypage" },
   ];
 
   return (
