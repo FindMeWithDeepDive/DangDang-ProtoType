@@ -5,7 +5,8 @@ import BottomSheetContent from "./BottomSheetContent";
 import BottomSheetMeetingList from "./BottomSheetMeetingList";
 
 export default function BottomSheet() {
-  const { height, contentDisplay, meetingDisplay, onClickHeader } = useBottomSheetStore();
+  const { height, contentDisplay, meetingDisplay, onClickHeader } =
+    useBottomSheetStore();
 
   return (
     <BottomSheetContainer height={height}>

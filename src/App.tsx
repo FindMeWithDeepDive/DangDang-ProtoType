@@ -1,23 +1,56 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom"; // ✅ Router 제거
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import BottomBar from "./components/shared/BottomBar";
 import HomePage from "./pages/home-page/HomePage";
-import PlacePage from "./pages/place-page/PlacePage";
 import GroupPage from "./pages/group-page/GroupPage";
 import MyPage from "./pages/my-page/MyPage";
+import LoginPage from "./pages/login/LoginPage";
+import MeetingPage from "./pages/meeting-page/MeetingPage";
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // ✅ 초기값은 null 허용
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
+
+  if (isAuthenticated === null) {
+    return <div>로딩 중...</div>;
+  }
+
   return (
     <AppContainer>
       <AppContent>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/place" element={<PlacePage />} />
-          <Route path="/group" element={<GroupPage />} />
-          <Route path="/mypage" element={<MyPage />} />
+          {!isAuthenticated ? (
+            <>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/group" element={<GroupPage />} />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/*" element={<Navigate to="/" replace />} />{" "}
+              <Route path="/meeting/:id" element={<MeetingPage />} />
+            </>
+          ) : (
+            <>
+              <Route
+                path="/login"
+                element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
+              />
+              <Route path="/*" element={<Navigate to="/login" replace />} />{" "}
+            </>
+          )}
         </Routes>
       </AppContent>
-      <BottomBar /> {/* 하단 바 컴포넌트 */}
+      {!isAuthenticated && <BottomBar />}
     </AppContainer>
   );
 };
@@ -26,7 +59,7 @@ export default App;
 
 const AppContainer = styled.div`
   width: 440px;
-  height: 100vh; /* 화면의 크기 전체에 맞게 설정 */
+  height: 100vh;
   margin: 0 auto;
   background-color: #999999;
   display: flex;
@@ -36,6 +69,6 @@ const AppContainer = styled.div`
 const AppContent = styled.div`
   width: 440px;
   height: 100%;
-  overflow-y: auto; /* 내용이 많으면 스크롤이 생기도록 설정 */
-  flex-grow: 1; /* BottomBar를 제외한 나머지 공간을 채움 */
+  overflow-y: auto;
+  flex-grow: 1;
 `;

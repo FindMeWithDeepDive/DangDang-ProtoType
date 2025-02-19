@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import starIcon from "../assets/starIcon.png";
 import phoneIcon from "../assets/phoneIcon.png";
 import { usePlaceDetailStore } from "../stores/map";
 
 export default function BottomSheetContent() {
-  const { place_name, road_address_name, address_name, phone } = usePlaceDetailStore();
+  const { place_name, road_address_name, address_name, phone, id } =
+    usePlaceDetailStore();
+
+  useEffect(() => {
+    console.log("placeID : ", id);
+  }, [id]);
   return (
     <SheetContent>
       <TitleIconWrapper>

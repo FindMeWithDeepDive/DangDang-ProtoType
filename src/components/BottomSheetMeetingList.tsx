@@ -1,37 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import humanIcon from "../assets/humanIcon.png";
-
-// 임시 데이터입니다. API 완성되면 삭제 후 API 데이터로 수정하시면 됩니다.
-const dummyData = [
-  {
-    title: "소형견만 가능해욧",
-    maxParticipants: 5,
-    participants: 3,
-  },
-  {
-    title: "화,목 자주 모여요",
-    maxParticipants: 10,
-    participants: 6,
-  },
-  {
-    title: "소형견만 가능해욧",
-    maxParticipants: 5,
-    participants: 3,
-  },
-  {
-    title: "소형견만 가능해욧",
-    maxParticipants: 5,
-    participants: 3,
-  },
-  {
-    title: "화, 목 자주 모여요",
-    maxParticipants: 10,
-    participants: 6,
-  },
-];
+import { usePlaceDetailStore } from "../stores/map";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function BottomSheetMeetingList() {
+  const { id } = usePlaceDetailStore(); // 여기서 id를 가져옴
+  const [meetings, setMeetings] = useState<
+    {
+      title: string;
+      maxParticipants: number;
+      participants: number;
+      id: number;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    if (!id) return; // id가 없으면 API 요청 안 함
+    const token = localStorage.getItem("accessToken");
+
+    const fetchMeetings = async () => {
+      try {
+        const response = await axios.get(`/api/v1/meetings?placeId=${id}`);
+
+        console.log("응답 데이터 : ", response.data);
+
+        const mappedData = response.data.data.map((meeting: any) => ({
+          id: meeting.meetingId,
+          title: meeting.meetingName, // 제목 매핑
+          maxParticipants: meeting.maxPeople, // 최대 참여자 수
+          participants: meeting.curPeople, // 현재 참여자 수
+        }));
+
+        setMeetings(mappedData);
+      } catch (error) {
+        console.error("모임 데이터 불러오기 실패:", error);
+      }
+    };
+
+    fetchMeetings();
+  }, [id]);
+
+  const navigate = useNavigate();
+
+  const goToMeetingPage = (meetingId: number) => {
+    navigate(`/meeting/${meetingId}`);
+  };
+
   const onClickButton = () => {
     alert("모임 생성 페이지로 이동합니다. (수정 요망)");
   };
@@ -48,9 +64,9 @@ export default function BottomSheetMeetingList() {
         </CreateButton>
       </TitleButtonBox>
       <MeetingList>
-        {dummyData.map((data, index) => {
+        {meetings.map((data, index) => {
           return (
-            <MeetingItem key={index}>
+            <MeetingItem key={index} onClick={() => goToMeetingPage(data.id)}>
               <MeetingTitle>{data.title}</MeetingTitle>
               <IconPeopleBox>
                 <Icon src={humanIcon} />
